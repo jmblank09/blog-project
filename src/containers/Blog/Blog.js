@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import {
   Route,
   Switch,
@@ -12,6 +12,8 @@ import Posts from './Posts/Posts';
 import asyncComponent from '../../hoc/asyncComponent';
 
 const AsyncNewPost = asyncComponent(() => import('./NewPost/NewPost'));
+// new way of lazy loading
+// const AsyncNewPost = React.lazy(() => import('./NewPost/NewPost'));
 
 class Blog extends Component {
   state = {
@@ -47,6 +49,12 @@ class Blog extends Component {
             {/* Routes */}
             <Switch>
               {this.state.auth ? <Route path="/new-post" component={AsyncNewPost} /> : null}
+              {/*
+                new way of lazy loading
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Route path="/new-post" component={AsyncNewPost} />
+                </Suspense>
+                */}
               <Route path="/posts" component={Posts} />
               <Route render={() => <h1>Not found</h1>} />
               {/* <Redirect from="/" to="/posts" /> */}
