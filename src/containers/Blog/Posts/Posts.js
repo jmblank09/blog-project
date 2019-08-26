@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from '../../../axios';
 
 import Post from '../../../components/Post/Post';
@@ -22,7 +23,7 @@ class Posts extends Component {
         });
         this.setState({posts: updatedPosts});
       })
-      .catch(error => console.log());
+      .catch(error => console.log(error));
   }
 
   postSelected = (id) => {
@@ -34,11 +35,14 @@ class Posts extends Component {
 
     if (!this.state.error) {
       posts = this.state.posts
-        .map(p => <Post
-          key={p.id}
-          title={p.title}
-          author={p.author}
-          clicked={() => this.postSelected(p.id)} />);
+        .map(p => (
+          <Link to={'/' + p.id} key={p.id}>
+            <Post
+              title={p.title}
+              author={p.author}
+              clicked={() => this.postSelected(p.id)} />
+          </Link>
+        ));
     }
 
     return (
